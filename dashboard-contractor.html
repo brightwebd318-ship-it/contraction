@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contractor Dashboard — ConstructFlow</title>
+  <meta name="description" content="Full contractor management dashboard — projects, materials, labour, finances, and client communication." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR OVERLAY -->
+  <div class="sidebar-mobile-overlay" id="sidebarOverlay"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-icon" style="width:32px;height:32px;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M4 24L14 4L24 24H4Z" fill="url(#sbLgC)"/><path d="M8 24V16H20V24" stroke="white" stroke-width="1.5" fill="none"/><defs><linearGradient id="sbLgC" x1="4" y1="4" x2="24" y2="24"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg>
+        </div>
+        <span class="logo-text" style="font-weight:700;font-size:0.95rem;letter-spacing:-0.02em;background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">ConstructFlow</span>
+      </div>
+      <button class="sidebar-collapse-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="sidebar-body">
+      <!-- Company Badge -->
+      <div style="margin:0 4px 16px;padding:12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:var(--radius-md)">
+        <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#34d399;margin-bottom:4px">Company</div>
+        <div style="font-size:0.875rem;font-weight:700">BuildPro Ltd.</div>
+        <div style="font-size:0.72rem;color:var(--text-muted)">12 Active Projects</div>
+      </div>
+
+      <div class="sidebar-nav-group">
+        <div class="sidebar-nav-label">Main</div>
+        <a class="sidebar-nav-item active" onclick="showPage('overview',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+          <span class="sidebar-nav-text">Overview</span>
+        </a>
+        <a class="sidebar-nav-item" onclick="showPage('projects',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <span class="sidebar-nav-text">Projects</span>
+          <span class="sidebar-nav-badge">12</span>
+        </a>
+        <a class="sidebar-nav-item" onclick="showPage('materials',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <span class="sidebar-nav-text">Materials</span>
+        </a>
+        <a class="sidebar-nav-item" onclick="showPage('labour',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <span class="sidebar-nav-text">Labour</span>
+        </a>
+        <a class="sidebar-nav-item" onclick="showPage('plans',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+          <span class="sidebar-nav-text">Plans & Drawings</span>
+        </a>
+      </div>
+
+      <div class="sidebar-nav-group">
+        <div class="sidebar-nav-label">Operations</div>
+        <a class="sidebar-nav-item" onclick="showPage('reports',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg></div>
+          <span class="sidebar-nav-text">Site Reports</span>
+        </a>
+        <a class="sidebar-nav-item" onclick="showPage('finance',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <span class="sidebar-nav-text">Finance</span>
+        </a>
+        <a class="sidebar-nav-item" onclick="showPage('chat',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <span class="sidebar-nav-text">Client Chat</span>
+          <span class="sidebar-nav-badge" style="background:var(--brand-success)">5</span>
+        </a>
+        <a class="sidebar-nav-item" onclick="showPage('ai',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <span class="sidebar-nav-text">AI Assistant</span>
+          <span class="sidebar-nav-badge" style="background:var(--gradient-pink)">AI</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="background:linear-gradient(135deg,#10b981,#34d399)">RP</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Rahul Patel</div>
+          <div class="sidebar-user-role">Project Manager</div>
+        </div>
+        <button onclick="window.location.href='login-contractor.html'" style="background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px" title="Logout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="dashboard-main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="topbar-icon-btn" id="sidebarMobileToggle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div>
+          <div class="topbar-title" id="pageTitle">Overview</div>
+          <div class="topbar-subtitle">BuildPro Ltd. • May 25, 2026</div>
+        </div>
+      </div>
+      <div class="topbar-search" style="position:relative">
+        <svg class="topbar-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="form-input" placeholder="Search projects, workers..." style="border-radius:var(--radius-full);padding:8px 14px 8px 36px;height:38px;font-size:0.85rem;background:var(--bg-overlay)"/>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-theme-toggle theme-toggle">
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="topbar-icon-btn" onclick="Modal.open('notifModal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="Modal.open('newProjectModal')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Project
+        </button>
+      </div>
+    </header>
+
+    <div class="page-content">
+
+      <!-- ======= OVERVIEW ======= -->
+      <div id="page-overview">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Contractor Overview</h1>
+            <p>BuildPro Ltd. — Complete operations summary</p>
+          </div>
+        </div>
+
+        <div class="stats-row stats-row-5" style="margin-bottom:24px">
+          <div class="stat-card" style="--card-accent:var(--gradient-brand)">
+            <div class="stat-card-header"><span class="stat-card-label">Active Projects</span><div class="stat-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div></div>
+            <div class="stat-card-value" data-counter="12">12</div>
+            <span class="stat-card-change positive">↑ 3 this month</span>
+          </div>
+          <div class="stat-card" style="--card-accent:var(--gradient-success)">
+            <div class="stat-card-header"><span class="stat-card-label">Workers On Site</span><div class="stat-card-icon" style="background:rgba(16,185,129,0.12);color:#34d399"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div></div>
+            <div class="stat-card-value" data-counter="87">87</div>
+            <span class="stat-card-change positive">↑ 5 from yesterday</span>
+          </div>
+          <div class="stat-card" style="--card-accent:var(--gradient-warning)">
+            <div class="stat-card-header"><span class="stat-card-label">Revenue (May)</span><div class="stat-card-icon" style="background:rgba(245,158,11,0.12);color:#fbbf24"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div>
+            <div class="stat-card-value">$384K</div>
+            <span class="stat-card-change positive">↑ 18% vs last month</span>
+          </div>
+          <div class="stat-card" style="--card-accent:var(--gradient-cyan)">
+            <div class="stat-card-header"><span class="stat-card-label">Materials Used</span><div class="stat-card-icon" style="background:rgba(6,182,212,0.12);color:#22d3ee"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8"/></svg></div></div>
+            <div class="stat-card-value">$142K</div>
+            <span class="stat-card-change" style="color:var(--text-muted)">Across all projects</span>
+          </div>
+          <div class="stat-card" style="--card-accent:var(--gradient-danger)">
+            <div class="stat-card-header"><span class="stat-card-label">Pending Invoices</span><div class="stat-card-icon" style="background:rgba(239,68,68,0.12);color:#f87171"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div></div>
+            <div class="stat-card-value" style="color:#f87171">$68K</div>
+            <span class="stat-card-change negative">3 overdue</span>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="dashboard-grid grid-2-1" style="margin-bottom:24px">
+          <div class="section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">📊 Revenue vs Expenses</span>
+              <div class="tabs"><button class="tab-btn active">Monthly</button><button class="tab-btn">Quarterly</button></div>
+            </div>
+            <div class="section-card-body">
+              <div class="chart-container" style="height:240px"><canvas id="revenueChart"></canvas></div>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">🏗️ Project Status</span></div>
+            <div class="section-card-body">
+              <div class="chart-container" style="height:180px"><canvas id="projectStatusChart"></canvas></div>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+                <div style="display:flex;justify-content:space-between;font-size:0.82rem"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#10b981;display:inline-block"></span>Completed</span><span style="font-weight:700">4</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:0.82rem"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#6366f1;display:inline-block"></span>In Progress</span><span style="font-weight:700">6</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:0.82rem"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block"></span>Planning</span><span style="font-weight:700">2</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity + Alerts -->
+        <div class="dashboard-grid grid-2" style="margin-bottom:24px">
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">🔔 Smart Alerts</span><span class="badge badge-danger">4 Critical</span></div>
+            <div class="section-card-body" style="padding:0">
+              <div id="alertsList"></div>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">📋 Recent Activity</span></div>
+            <div class="section-card-body" style="padding:0">
+              <div id="activityFeed"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= PROJECTS ======= -->
+      <div id="page-projects" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left"><h1>Projects</h1><p>Manage all your construction projects</p></div>
+          <div class="page-header-actions">
+            <button class="btn btn-ghost btn-sm">Filter</button>
+            <button class="btn btn-primary btn-sm" onclick="Modal.open('newProjectModal')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New Project
+            </button>
+          </div>
+        </div>
+        <div id="projectsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px"></div>
+      </div>
+
+      <!-- ======= MATERIALS ======= -->
+      <div id="page-materials" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left"><h1>Material Management</h1><p>Track inventory, suppliers, and purchase history</p></div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary btn-sm" onclick="Modal.open('addMaterialModal')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Material
+            </button>
+          </div>
+        </div>
+        <div class="stats-row stats-row-4" style="margin-bottom:20px">
+          <div class="stat-card" style="--card-accent:var(--gradient-brand)"><div class="stat-card-header"><span class="stat-card-label">Total Items</span></div><div class="stat-card-value">248</div></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-warning)"><div class="stat-card-header"><span class="stat-card-label">Low Stock</span></div><div class="stat-card-value" style="color:#f87171">14</div></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-success)"><div class="stat-card-header"><span class="stat-card-label">In Transit</span></div><div class="stat-card-value" style="color:#fbbf24">8</div></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-cyan)"><div class="stat-card-header"><span class="stat-card-label">Total Value</span></div><div class="stat-card-value">$286K</div></div>
+        </div>
+        <div class="section-card">
+          <div class="section-card-header"><span class="section-card-title">📦 Material Inventory</span>
+            <input class="form-input" style="max-width:200px;height:32px;font-size:0.82rem;padding:6px 12px" placeholder="Search materials..." oninput="filterMaterials(this.value)"/>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table" id="materialsTable">
+              <thead><tr><th>Material</th><th>Category</th><th>In Stock</th><th>Unit Price</th><th>Supplier</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="materialsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= LABOUR ======= -->
+      <div id="page-labour" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left"><h1>Labour Management</h1><p>Workers, attendance, wages & team assignments</p></div>
+          <div class="page-header-actions">
+            <button class="btn btn-ghost btn-sm" onclick="Toast.show('Attendance report downloaded!','success')">Export Attendance</button>
+            <button class="btn btn-primary btn-sm" onclick="Modal.open('addWorkerModal')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Worker
+            </button>
+          </div>
+        </div>
+        <div class="stats-row stats-row-4" style="margin-bottom:20px">
+          <div class="stat-card" style="--card-accent:var(--gradient-brand)"><div class="stat-card-header"><span class="stat-card-label">Total Workers</span></div><div class="stat-card-value">124</div></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-success)"><div class="stat-card-header"><span class="stat-card-label">Present Today</span></div><div class="stat-card-value" style="color:#34d399">87</div></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-danger)"><div class="stat-card-header"><span class="stat-card-label">Absent</span></div><div class="stat-card-value" style="color:#f87171">22</div></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-warning)"><div class="stat-card-header"><span class="stat-card-label">Daily Wages</span></div><div class="stat-card-value">$12.4K</div></div>
+        </div>
+        <div class="dashboard-grid grid-2" style="margin-bottom:20px">
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">👷 Worker Attendance</span></div>
+            <div class="section-card-body" style="padding:0">
+              <div id="workerList"></div>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">📊 Attendance Trend</span></div>
+            <div class="section-card-body">
+              <div class="chart-container" style="height:220px"><canvas id="attendanceChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= PLANS ======= -->
+      <div id="page-plans" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left"><h1>Plans & Drawings</h1><p>Upload and manage blueprints, CAD files, and 3D models</p></div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary btn-sm" onclick="Modal.open('uploadPlanModal')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Upload Plan
+            </button>
+          </div>
+        </div>
+        <div class="upload-area" onclick="Toast.show('Click Upload Plan to add files','info')" style="margin-bottom:24px">
+          <div class="upload-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="upload-title">Drop files here or click Upload</div>
+          <div class="upload-subtitle">Supports PDF, DWG, DXF, 3DS, OBJ, PNG, JPG — Max 100MB</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px" id="plansGrid"></div>
+      </div>
+
+      <!-- ======= REPORTS ======= -->
+      <div id="page-reports" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left"><h1>Daily Site Reports</h1><p>Progress logs, photos, issues, and weather</p></div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary btn-sm" onclick="Modal.open('newReportModal')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New Report
+            </button>
+            <button class="btn btn-ghost btn-sm" onclick="Toast.show('PDF report generated!','success')">Export PDF</button>
+          </div>
+        </div>
+        <div id="reportsGrid" style="display:flex;flex-direction:column;gap:16px"></div>
+      </div>
+
+      <!-- ======= FINANCE ======= -->
+      <div id="page-finance" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left"><h1>Financial Management</h1><p>Budget, expenses, invoices, and profit analytics</p></div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary btn-sm" onclick="Modal.open('newInvoiceModal')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Generate Invoice
+            </button>
+          </div>
+        </div>
+        <div class="stats-row stats-row-4" style="margin-bottom:24px">
+          <div class="stat-card" style="--card-accent:var(--gradient-brand)"><div class="stat-card-header"><span class="stat-card-label">Total Revenue</span></div><div class="stat-card-value">$2.4M</div><span class="stat-card-change positive">↑ 24% YTD</span></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-warning)"><div class="stat-card-header"><span class="stat-card-label">Total Expenses</span></div><div class="stat-card-value">$1.8M</div><span class="stat-card-change negative">↑ 12% YTD</span></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-success)"><div class="stat-card-header"><span class="stat-card-label">Net Profit</span></div><div class="stat-card-value" style="color:#34d399">$610K</div><span class="stat-card-change positive">25.4% margin</span></div>
+          <div class="stat-card" style="--card-accent:var(--gradient-cyan)"><div class="stat-card-header"><span class="stat-card-label">Pending Invoices</span></div><div class="stat-card-value" style="color:#fbbf24">$68K</div><span class="stat-card-change negative">3 overdue</span></div>
+        </div>
+        <div class="dashboard-grid grid-2" style="margin-bottom:24px">
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">📈 Profit Analysis</span></div>
+            <div class="section-card-body"><div class="chart-container" style="height:260px"><canvas id="profitChart"></canvas></div></div>
+          </div>
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">🧾 Recent Invoices</span></div>
+            <div class="section-card-body" style="padding:0">
+              <table class="data-table">
+                <thead><tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td><b>#INV-2026-042</b></td><td>Amir Khan</td><td>$42,000</td><td><span class="badge badge-success">Paid</span></td><td><button class="btn btn-ghost btn-sm" onclick="Toast.show('Invoice downloaded!','success')">PDF</button></td></tr>
+                  <tr><td><b>#INV-2026-041</b></td><td>Sara Ahmed</td><td>$28,000</td><td><span class="badge badge-warning">Pending</span></td><td><button class="btn btn-ghost btn-sm" onclick="Toast.show('Reminder sent!','info')">Send</button></td></tr>
+                  <tr><td><b>#INV-2026-040</b></td><td>Omar Malik</td><td>$64,000</td><td><span class="badge badge-success">Paid</span></td><td><button class="btn btn-ghost btn-sm" onclick="Toast.show('Invoice downloaded!','success')">PDF</button></td></tr>
+                  <tr><td><b>#INV-2026-039</b></td><td>Fatima Noor</td><td>$18,500</td><td><span class="badge badge-danger">Overdue</span></td><td><button class="btn btn-ghost btn-sm" onclick="Toast.show('Overdue notice sent!','warning')">Remind</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= CHAT ======= -->
+      <div id="page-chat" style="display:none">
+        <div class="page-header"><div class="page-header-left"><h1>Client Communication</h1><p>Chat, approvals, and announcements</p></div></div>
+        <div class="chat-layout">
+          <div class="chat-sidebar">
+            <div style="padding:12px;border-bottom:1px solid var(--border-subtle);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Clients</div>
+            <div class="chat-contact active">
+              <div class="avatar avatar-sm">AK</div>
+              <div><div class="chat-contact-name">Amir Khan</div><div class="chat-contact-preview">Sunrise Villa project</div></div>
+            </div>
+            <div class="chat-contact">
+              <div class="avatar avatar-sm" style="background:linear-gradient(135deg,#ec4899,#f472b6)">SA</div>
+              <div><div class="chat-contact-name">Sara Ahmed</div><div class="chat-contact-preview">Can we upgrade tiles?</div></div>
+            </div>
+            <div class="chat-contact">
+              <div class="avatar avatar-sm" style="background:linear-gradient(135deg,#06b6d4,#22d3ee)">OM</div>
+              <div><div class="chat-contact-name">Omar Malik</div><div class="chat-contact-preview">Payment sent ✓</div></div>
+            </div>
+          </div>
+          <div class="chat-main">
+            <div class="chat-header">
+              <div class="avatar avatar-sm">AK</div>
+              <div><div style="font-size:0.875rem;font-weight:700">Amir Khan</div><div style="font-size:0.72rem;color:var(--text-muted)">Client — Sunrise Villa • Online</div></div>
+              <div style="margin-left:auto;display:flex;gap:8px">
+                <button class="btn btn-ghost btn-sm" onclick="Toast.show('Video call initiated!','info')">📹 Call</button>
+                <button class="btn btn-ghost btn-sm" onclick="Modal.open('approvalRequestModal')">Send Approval Request</button>
+              </div>
+            </div>
+            <div class="chat-messages" id="contractorChatMessages">
+              <div class="chat-msg sent">
+                <div><div class="chat-bubble">Good morning Mr. Khan! Today's roofing work is progressing well. North section is 68% complete.</div><div class="chat-time" style="text-align:right">8:15 AM</div></div>
+              </div>
+              <div class="chat-msg received">
+                <div class="avatar avatar-sm">AK</div>
+                <div><div class="chat-bubble">Great! When do you expect the full roof to be done?</div><div class="chat-time">8:22 AM</div></div>
+              </div>
+              <div class="chat-msg sent">
+                <div><div class="chat-bubble">Estimated completion by June 2nd, 2026. I've uploaded 3 new photos to the timeline for your review. 📷</div><div class="chat-time" style="text-align:right">8:25 AM</div></div>
+              </div>
+              <div class="chat-msg received">
+                <div class="avatar avatar-sm">AK</div>
+                <div><div class="chat-bubble">Please make sure the waterproofing quality is checked before moving to the next stage. 👍</div><div class="chat-time">2:30 PM</div></div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <input class="chat-input" id="contractorChatInput" placeholder="Message Amir Khan..." onkeypress="if(event.key==='Enter')sendContractorMsg()"/>
+              <button class="btn btn-primary btn-icon" onclick="sendContractorMsg()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= AI ASSISTANT ======= -->
+      <div id="page-ai" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left"><h1>AI Assistant</h1><p>Smart estimations, predictions, and auto-report generation</p></div>
+        </div>
+        <div class="dashboard-grid grid-2" style="margin-bottom:24px">
+          <div class="section-card" style="background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.08));border-color:rgba(99,102,241,0.2)">
+            <div class="section-card-header"><span class="section-card-title">🤖 AI Material Cost Estimator</span></div>
+            <div class="section-card-body">
+              <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:20px">Enter project details to get an AI-powered material cost estimate.</p>
+              <div class="form-group"><label class="form-label">Project Type</label><select class="form-input"><option>2BHK House (1200 sqft)</option><option>3BHK House (1800 sqft)</option><option>Villa (3000 sqft)</option><option>Commercial Building</option></select></div>
+              <div class="form-group"><label class="form-label">Location</label><input class="form-input" placeholder="City, State" value="Mumbai, Maharashtra"/></div>
+              <div class="form-group"><label class="form-label">Construction Quality</label><select class="form-input"><option>Standard</option><option selected>Premium</option><option>Luxury</option></select></div>
+              <button class="btn btn-primary btn-full" onclick="runAiEstimate()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Generate AI Estimate
+              </button>
+              <div id="aiEstimateResult" style="display:none;margin-top:20px;padding:16px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:var(--radius-md)"></div>
+            </div>
+          </div>
+          <div class="section-card" style="background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(52,211,153,0.05));border-color:rgba(16,185,129,0.2)">
+            <div class="section-card-header"><span class="section-card-title">⚡ Smart Predictions</span></div>
+            <div class="section-card-body">
+              <div id="aiPredictions" style="display:flex;flex-direction:column;gap:12px"></div>
+              <button class="btn btn-glass btn-full" style="margin-top:20px" onclick="Toast.show('PDF report generated! Check your downloads.','success')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Auto-Generate PDF Report
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </main>
+</div>
+
+<!-- ======= MODALS ======= -->
+<!-- New Project Modal -->
+<div class="modal-overlay" id="newProjectModal">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">Create New Project</h2><button class="modal-close" data-modal-close="newProjectModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="form-group"><label class="form-label">Project Name</label><input class="form-input" placeholder="e.g. Green Valley Villa"/></div>
+    <div class="form-group"><label class="form-label">Client Name</label><input class="form-input" placeholder="Client full name"/></div>
+    <div class="form-group"><label class="form-label">Client Email</label><input class="form-input" type="email" placeholder="client@email.com"/></div>
+    <div class="form-group"><label class="form-label">Project Budget ($)</label><input class="form-input" type="number" placeholder="500000"/></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" type="date"/></div>
+      <div class="form-group"><label class="form-label">End Date</label><input class="form-input" type="date"/></div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="createProject()">Create Project & Send Client Access</button>
+  </div>
+</div>
+
+<!-- Add Material Modal -->
+<div class="modal-overlay" id="addMaterialModal">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">Add Material</h2><button class="modal-close" data-modal-close="addMaterialModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="form-group"><label class="form-label">Material Name</label><input class="form-input" placeholder="e.g. Portland Cement OPC 53"/></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group"><label class="form-label">Category</label><select class="form-input"><option>Cement & Concrete</option><option>Steel & Metals</option><option>Tiles & Flooring</option><option>Paint & Coatings</option><option>Wood & Timber</option><option>Electrical</option><option>Plumbing</option></select></div>
+      <div class="form-group"><label class="form-label">Unit</label><select class="form-input"><option>bags</option><option>kg</option><option>tons</option><option>pieces</option><option>liters</option><option>sqft</option></select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group"><label class="form-label">Quantity</label><input class="form-input" type="number" placeholder="100"/></div>
+      <div class="form-group"><label class="form-label">Unit Price ($)</label><input class="form-input" type="number" placeholder="12.50"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Supplier Name</label><input class="form-input" placeholder="UltraTech Cement Ltd."/></div>
+    <button class="btn btn-primary btn-full" onclick="Modal.close('addMaterialModal');Toast.show('Material added to inventory!','success')">Add to Inventory</button>
+  </div>
+</div>
+
+<!-- Add Worker Modal -->
+<div class="modal-overlay" id="addWorkerModal">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">Add Worker</h2><button class="modal-close" data-modal-close="addWorkerModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group"><label class="form-label">First Name</label><input class="form-input" placeholder="Ahmad"/></div>
+      <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" placeholder="Raza"/></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group"><label class="form-label">Role / Trade</label><select class="form-input"><option>Mason</option><option>Carpenter</option><option>Electrician</option><option>Plumber</option><option>Welder</option><option>Painter</option><option>General Labour</option><option>Supervisor</option></select></div>
+      <div class="form-group"><label class="form-label">Daily Wage ($)</label><input class="form-input" type="number" placeholder="180"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Assign to Project</label><select class="form-input"><option>Sunrise Villa (CF-2026-00142)</option><option>Green Valley (CF-2026-00138)</option><option>Pearl Heights (CF-2026-00129)</option></select></div>
+    <button class="btn btn-primary btn-full" onclick="Modal.close('addWorkerModal');Toast.show('Worker added to team!','success')">Add Worker</button>
+  </div>
+</div>
+
+<!-- Upload Plan Modal -->
+<div class="modal-overlay" id="uploadPlanModal">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">Upload Plan / Drawing</h2><button class="modal-close" data-modal-close="uploadPlanModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="form-group"><label class="form-label">File Name</label><input class="form-input" placeholder="Foundation Plan - Rev 3"/></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group"><label class="form-label">File Type</label><select class="form-input"><option>PDF Blueprint</option><option>AutoCAD DWG</option><option>3D Model</option><option>Floor Plan Image</option><option>Structural Drawing</option></select></div>
+      <div class="form-group"><label class="form-label">Version</label><input class="form-input" placeholder="v3.0"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Project</label><select class="form-input"><option>Sunrise Villa</option><option>Green Valley</option><option>Pearl Heights</option></select></div>
+    <div class="upload-area" style="padding:24px;margin-bottom:16px" onclick="Toast.show('File browser opened!','info')">
+      <div class="upload-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+      <div class="upload-title" style="font-size:0.875rem">Click to browse or drag file here</div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="Modal.close('uploadPlanModal');Toast.show('Plan uploaded successfully! Version tracked.','success')">Upload Plan</button>
+  </div>
+</div>
+
+<!-- New Report Modal -->
+<div class="modal-overlay" id="newReportModal">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">New Daily Report</h2><button class="modal-close" data-modal-close="newReportModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group"><label class="form-label">Date</label><input class="form-input" type="date" value="2026-05-25"/></div>
+      <div class="form-group"><label class="form-label">Weather</label><input class="form-input" placeholder="Sunny, 32°C"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Progress Summary</label><textarea class="form-input" rows="3" placeholder="What was accomplished today..."></textarea></div>
+    <div class="form-group"><label class="form-label">Issues / Delays</label><textarea class="form-input" rows="2" placeholder="Any issues or delays..."></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group"><label class="form-label">Workers Present</label><input class="form-input" type="number" placeholder="24"/></div>
+      <div class="form-group"><label class="form-label">Project</label><select class="form-input"><option>Sunrise Villa</option><option>Green Valley</option></select></div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="Modal.close('newReportModal');Toast.show('Daily report submitted!','success')">Submit Report</button>
+  </div>
+</div>
+
+<!-- Approval Request Modal -->
+<div class="modal-overlay" id="approvalRequestModal">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">Send Approval Request</h2><button class="modal-close" data-modal-close="approvalRequestModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="form-group"><label class="form-label">Stage</label><select class="form-input"><option>Roofing</option><option>Foundation</option><option>Structure</option><option>Wall Work</option></select></div>
+    <div class="form-group"><label class="form-label">Message to Client</label><textarea class="form-input" rows="3" placeholder="Please review and approve...">The Roofing stage (North Section) has been completed. Please review the attached photos and provide your approval to proceed to the Electrical phase.</textarea></div>
+    <button class="btn btn-primary btn-full" onclick="Modal.close('approvalRequestModal');Toast.show('Approval request sent to client!','success')">Send Request</button>
+  </div>
+</div>
+
+<!-- Notification Modal -->
+<div class="modal-overlay" id="notifModal">
+  <div class="modal" style="max-width:420px;padding:0;overflow:hidden">
+    <div class="modal-header" style="padding:20px 24px;border-bottom:1px solid var(--border-default)">
+      <h2 class="modal-title">Alerts & Notifications</h2>
+      <button class="modal-close" data-modal-close="notifModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="notification-list">
+      <div class="notif-item unread"><div class="notif-icon" style="background:rgba(239,68,68,0.12);color:#f87171"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="notif-content"><div class="notif-title">Budget Alert — Green Valley</div><div class="notif-desc">Materials budget at 88% — approaching limit</div><div class="notif-time">30 minutes ago</div></div></div>
+      <div class="notif-item unread"><div class="notif-icon" style="background:rgba(245,158,11,0.12);color:#fbbf24"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="notif-content"><div class="notif-title">Delay Predicted — Pearl Heights</div><div class="notif-desc">AI predicts 3-day delay due to material shortage</div><div class="notif-time">2 hours ago</div></div></div>
+      <div class="notif-item"><div class="notif-icon" style="background:rgba(16,185,129,0.12);color:#34d399"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="notif-content"><div class="notif-title">Client Approved — Amir Khan</div><div class="notif-desc">Wall Work stage approved by client</div><div class="notif-time">Yesterday</div></div></div>
+      <div class="notif-item"><div class="notif-icon" style="background:rgba(99,102,241,0.12);color:#818cf8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="notif-content"><div class="notif-title">Payment Received</div><div class="notif-desc">$42,000 received from Omar Malik</div><div class="notif-time">2 days ago</div></div></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+// ── PAGE NAVIGATION ──
+let chartsInitialized = {};
+
+function showPage(page, navItem) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
+  const target = document.getElementById('page-' + page);
+  if (target) { target.style.display = 'block'; target.style.animation = 'fadeIn 0.3s ease'; }
+  if (navItem) {
+    document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
+    navItem.classList.add('active');
+    document.getElementById('pageTitle').textContent = navItem.querySelector('.sidebar-nav-text').textContent.trim();
+  }
+  if (!chartsInitialized[page]) {
+    chartsInitialized[page] = true;
+    if (page === 'overview') { initRevenueChart(); initProjectStatusChart(); buildAlerts(); buildActivity(); }
+    if (page === 'labour') { buildWorkerList(); initAttendanceChart(); }
+    if (page === 'finance') initProfitChart();
+    if (page === 'materials') buildMaterialsTable();
+    if (page === 'plans') buildPlansGrid();
+    if (page === 'reports') buildReportsGrid();
+    if (page === 'ai') buildAiPredictions();
+  }
+}
+
+// ── REVENUE CHART ──
+function initRevenueChart() {
+  const ctx = document.getElementById('revenueChart');
+  if (!ctx) return;
+  const theme = document.documentElement.getAttribute('data-theme');
+  const textColor = theme==='dark'?'#9090a8':'#5c5c70';
+  const gridColor = theme==='dark'?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)';
+  new Chart(ctx, {
+    type:'bar',
+    data:{ labels:['Jan','Feb','Mar','Apr','May','Jun'], datasets:[
+      {label:'Revenue',data:[320,380,420,360,480,440],backgroundColor:'rgba(99,102,241,0.8)',borderRadius:6,borderSkipped:false},
+      {label:'Expenses',data:[240,290,340,280,360,310],backgroundColor:'rgba(16,185,129,0.5)',borderRadius:6,borderSkipped:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:textColor,font:{family:'Plus Jakarta Sans',size:12,weight:'600'}}},tooltip:{backgroundColor:'#1c1c28',titleColor:'#f0f0f8',bodyColor:'#9090a8',borderColor:'rgba(255,255,255,0.1)',borderWidth:1}},scales:{y:{ticks:{color:textColor},grid:{color:gridColor}},x:{ticks:{color:textColor},grid:{display:false}}}}
+  });
+}
+
+function initProjectStatusChart() {
+  const ctx = document.getElementById('projectStatusChart');
+  if (!ctx) return;
+  const theme = document.documentElement.getAttribute('data-theme');
+  const textColor = theme==='dark'?'#9090a8':'#5c5c70';
+  new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:['Completed','In Progress','Planning'], datasets:[{data:[4,6,2],backgroundColor:['#10b981','#6366f1','#f59e0b'],borderWidth:0,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{backgroundColor:'#1c1c28',titleColor:'#f0f0f8',bodyColor:'#9090a8',borderColor:'rgba(255,255,255,0.1)',borderWidth:1}}}
+  });
+}
+
+function initAttendanceChart() {
+  const ctx = document.getElementById('attendanceChart');
+  if (!ctx) return;
+  const theme = document.documentElement.getAttribute('data-theme');
+  const textColor = theme==='dark'?'#9090a8':'#5c5c70';
+  const gridColor = theme==='dark'?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)';
+  new Chart(ctx, {
+    type:'line',
+    data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Present',data:[82,87,79,85,87,60,45],borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',fill:true,tension:0.4,pointBackgroundColor:'#10b981',pointRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1c1c28',titleColor:'#f0f0f8',bodyColor:'#9090a8',borderColor:'rgba(255,255,255,0.1)',borderWidth:1}},scales:{y:{ticks:{color:textColor},grid:{color:gridColor}},x:{ticks:{color:textColor},grid:{display:false}}}}
+  });
+}
+
+function initProfitChart() {
+  const ctx = document.getElementById('profitChart');
+  if (!ctx) return;
+  const theme = document.documentElement.getAttribute('data-theme');
+  const textColor = theme==='dark'?'#9090a8':'#5c5c70';
+  const gridColor = theme==='dark'?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)';
+  new Chart(ctx, {
+    type:'line',
+    data:{labels:['Jan','Feb','Mar','Apr','May','Jun'],datasets:[
+      {label:'Profit ($K)',data:[80,90,80,80,120,130],borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',fill:true,tension:0.4,pointBackgroundColor:'#10b981',pointRadius:4},
+      {label:'Expenses ($K)',data:[240,290,340,280,360,310],borderColor:'#6366f1',backgroundColor:'rgba(99,102,241,0.05)',fill:true,tension:0.4,pointBackgroundColor:'#6366f1',pointRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:textColor,font:{family:'Plus Jakarta Sans',size:11}}},tooltip:{backgroundColor:'#1c1c28',titleColor:'#f0f0f8',bodyColor:'#9090a8',borderColor:'rgba(255,255,255,0.1)',borderWidth:1}},scales:{y:{ticks:{color:textColor},grid:{color:gridColor}},x:{ticks:{color:textColor},grid:{display:false}}}}
+  });
+}
+
+// ── ALERTS ──
+const alertsData = [
+  { type:'danger', icon:'⚠️', title:'Budget Warning', desc:'Green Valley project materials budget at 88% utilization', time:'30 min ago' },
+  { type:'warning', icon:'⏰', title:'Delay Predicted', desc:'Pearl Heights: AI predicts 3-day delay due to material shortage', time:'2 hrs ago' },
+  { type:'warning', icon:'📦', title:'Low Stock Alert', desc:'OPC Cement: Only 12 bags remaining — reorder required', time:'4 hrs ago' },
+  { type:'danger', icon:'🧾', title:'Overdue Invoice', desc:'INV-2026-039 ($18,500) — Fatima Noor — 7 days overdue', time:'Yesterday' },
+];
+
+function buildAlerts() {
+  const container = document.getElementById('alertsList');
+  if (!container || container.children.length > 0) return;
+  alertsData.forEach(a => {
+    const colors = { danger:'rgba(239,68,68,0.12)', warning:'rgba(245,158,11,0.12)' };
+    const textColors = { danger:'#f87171', warning:'#fbbf24' };
+    const div = document.createElement('div');
+    div.style.cssText='display:flex;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border-subtle);cursor:pointer;transition:background 0.15s';
+    div.onmouseenter=()=>div.style.background='var(--bg-hover)';
+    div.onmouseleave=()=>div.style.background='';
+    div.innerHTML=`<div style="width:32px;height:32px;border-radius:8px;background:${colors[a.type]};color:${textColors[a.type]};display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0">${a.icon}</div><div style="flex:1;min-width:0"><div style="font-size:0.82rem;font-weight:700;margin-bottom:2px">${a.title}</div><div style="font-size:0.75rem;color:var(--text-secondary)">${a.desc}</div><div style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">${a.time}</div></div>`;
+    container.appendChild(div);
+  });
+}
+
+function buildActivity() {
+  const feed = document.getElementById('activityFeed');
+  if (!feed || feed.children.length > 0) return;
+  const acts = [
+    { icon:'✅', color:'rgba(16,185,129,0.12)', text:'<b>Amir Khan</b> approved Wall Work stage', time:'2 hrs ago' },
+    { icon:'📷', color:'rgba(99,102,241,0.12)', text:'<b>3 photos</b> uploaded for Roofing stage', time:'3 hrs ago' },
+    { icon:'💰', color:'rgba(16,185,129,0.12)', text:'Payment of <b>$42,000</b> received from Omar', time:'5 hrs ago' },
+    { icon:'👷', color:'rgba(6,182,212,0.12)', text:'<b>87 workers</b> checked in across 12 sites', time:'8 hrs ago' },
+    { icon:'📦', color:'rgba(245,158,11,0.12)', text:'<b>320 roofing tiles</b> delivered — Sunrise Villa', time:'Yesterday' },
+  ];
+  acts.forEach(a => {
+    const div = document.createElement('div');
+    div.style.cssText='display:flex;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border-subtle)';
+    div.innerHTML=`<div style="width:30px;height:30px;border-radius:8px;background:${a.color};display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0">${a.icon}</div><div><div style="font-size:0.82rem;font-weight:500">${a.text}</div><div style="font-size:0.7rem;color:var(--text-muted);margin-top:2px">${a.time}</div></div>`;
+    feed.appendChild(div);
+  });
+}
+
+// ── MATERIALS TABLE ──
+const materials = [
+  { name:'Portland Cement OPC 53', cat:'Cement', qty:'248 bags', price:'$12.50/bag', supplier:'UltraTech', status:'delivered' },
+  { name:'TMT Steel Bars 12mm', cat:'Steel', qty:'850 kg', price:'$0.85/kg', supplier:'TATA Steel', status:'delivered' },
+  { name:'Roofing Tiles Premium', cat:'Tiles', qty:'320 pcs', price:'$4.20/pc', supplier:'TilePro Co.', status:'delivered' },
+  { name:'OPC Cement Grade 43', cat:'Cement', qty:'12 bags', price:'$11.00/bag', supplier:'ACC Ltd.', status:'low' },
+  { name:'Primer (White)', cat:'Paint', qty:'20 L', price:'$8.50/L', supplier:'Asian Paints', status:'transit' },
+  { name:'Sand (River)', cat:'Aggregate', qty:'5 tons', price:'$45/ton', supplier:'Local Supplier', status:'delivered' },
+  { name:'MS Pipes 2inch', cat:'Plumbing', qty:'50 m', price:'$12/m', supplier:'APL Apollo', status:'ordered' },
+  { name:'Electrical Conduit PVC', cat:'Electrical', qty:'100 m', price:'$3.50/m', supplier:'Finolex', status:'ordered' },
+];
+
+function buildMaterialsTable() {
+  renderMaterials(materials);
+}
+
+function renderMaterials(data) {
+  const tbody = document.getElementById('materialsBody');
+  tbody.innerHTML = '';
+  data.forEach(m => {
+    const statusMap = { delivered:['badge-success','Delivered'], transit:['badge-warning','In Transit'], low:['badge-danger','Low Stock'], ordered:['badge-primary','Ordered'] };
+    const [cls, label] = statusMap[m.status] || ['badge-info','Unknown'];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><b>${m.name}</b></td><td>${m.cat}</td><td>${m.qty}</td><td>${m.price}</td><td>${m.supplier}</td><td><span class="badge ${cls}">${label}</span></td><td><button class="btn btn-ghost btn-sm" onclick="Toast.show('Reorder request sent!','success')">Reorder</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function filterMaterials(q) {
+  const filtered = materials.filter(m => m.name.toLowerCase().includes(q.toLowerCase()) || m.cat.toLowerCase().includes(q.toLowerCase()));
+  renderMaterials(filtered);
+}
+
+// ── WORKERS ──
+const workers = [
+  { name:'Ahmad Raza', role:'Mason', wage:'$180', project:'Sunrise Villa', status:'present', initials:'AR' },
+  { name:'Bilal Khan', role:'Carpenter', wage:'$200', project:'Green Valley', status:'present', initials:'BK' },
+  { name:'Sajid Ali', role:'Electrician', wage:'$220', project:'Pearl Heights', status:'absent', initials:'SA' },
+  { name:'Naveed Iqbal', role:'Plumber', wage:'$210', project:'Sunrise Villa', status:'present', initials:'NI' },
+  { name:'Imran Siddiqui', role:'Painter', wage:'$160', project:'Green Valley', status:'leave', initials:'IS' },
+  { name:'Tariq Mahmood', role:'Welder', wage:'$190', project:'Pearl Heights', status:'present', initials:'TM' },
+];
+
+function buildWorkerList() {
+  const container = document.getElementById('workerList');
+  if (!container || container.children.length > 0) return;
+  workers.forEach(w => {
+    const statusCls = { present:'status-present', absent:'status-absent', leave:'status-leave' }[w.status];
+    const statusLabel = { present:'Present', absent:'Absent', leave:'On Leave' }[w.status];
+    const div = document.createElement('div');
+    div.className = 'worker-item';
+    div.style.padding = '12px 20px';
+    div.innerHTML = `
+      <div class="avatar avatar-sm" style="background:var(--gradient-brand)">${w.initials}</div>
+      <div class="worker-info">
+        <div class="worker-name">${w.name}</div>
+        <div class="worker-role">${w.role} • ${w.project}</div>
+      </div>
+      <span style="font-size:0.78rem;color:var(--text-muted);margin-right:8px">${w.wage}/day</span>
+      <span class="worker-status ${statusCls}">${statusLabel}</span>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ── PLANS ──
+const plans = [
+  { name:'Foundation Plan', type:'PDF', version:'v2.1', date:'Jan 5, 2026', icon:'📄' },
+  { name:'Ground Floor Plan', type:'AutoCAD', version:'v3.0', date:'Feb 12, 2026', icon:'📐' },
+  { name:'Electrical Layout', type:'PDF', version:'v1.2', date:'Mar 8, 2026', icon:'⚡' },
+  { name:'Plumbing Diagram', type:'PDF', version:'v1.0', date:'Mar 10, 2026', icon:'🔧' },
+  { name:'3D House Model', type:'3D Model', version:'v2.0', date:'Apr 2, 2026', icon:'🏠' },
+  { name:'Roof Structure', type:'AutoCAD', version:'v1.5', date:'May 1, 2026', icon:'📐' },
+];
+
+function buildPlansGrid() {
+  const grid = document.getElementById('plansGrid');
+  if (!grid || grid.children.length > 0) return;
+  plans.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'section-card animate-fade-up';
+    div.style.cursor = 'pointer';
+    div.onclick = () => Toast.show(`Opening ${p.name}...`, 'info');
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <div style="width:44px;height:44px;background:rgba(99,102,241,0.1);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.2rem">${p.icon}</div>
+        <div>
+          <div style="font-size:0.875rem;font-weight:700">${p.name}</div>
+          <div style="font-size:0.72rem;color:var(--text-muted)">${p.type}</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:14px">
+        <span class="badge badge-primary">${p.version}</span>
+        <span style="font-size:0.72rem;color:var(--text-muted)">${p.date}</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="event.stopPropagation();Toast.show('Opening preview...','info')">View</button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();Toast.show('File downloaded!','success')">↓ Download</button>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+// ── REPORTS ──
+const reports = [
+  { date:'May 25, 2026', project:'Sunrise Villa', progress:'North roof section 68% complete. Tiles laid, waterproofing done.', weather:'Sunny, 32°C', workers:24, issues:'None reported', delay:false },
+  { date:'May 24, 2026', project:'Green Valley', progress:'Foundation waterproofing completed. Footings poured for west wing.', weather:'Partly Cloudy, 28°C', workers:18, issues:'Minor supply delay - cement', delay:true },
+  { date:'May 23, 2026', project:'Pearl Heights', progress:'Ridge beam installation completed. 18 workers on site.', weather:'Sunny, 33°C', workers:18, issues:'None', delay:false },
+];
+
+function buildReportsGrid() {
+  const grid = document.getElementById('reportsGrid');
+  if (!grid || grid.children.length > 0) return;
+  reports.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'section-card animate-fade-up';
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;background:rgba(99,102,241,0.1);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center">📋</div>
+          <div><div style="font-size:0.9rem;font-weight:700">${r.project}</div><div style="font-size:0.72rem;color:var(--text-muted)">${r.date}</div></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          ${r.delay?`<span class="badge badge-warning">⏰ Delay Noted</span>`:`<span class="badge badge-success">✓ On Track</span>`}
+        </div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:14px">${r.progress}</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <span class="badge badge-info">☀️ ${r.weather}</span>
+        <span class="badge badge-primary">👷 ${r.workers} Workers</span>
+        <span class="badge ${r.issues==='None'||r.issues==='None reported'?'badge-success':'badge-warning'}" style="font-size:0.7rem">🔧 ${r.issues}</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="Toast.show('Report PDF generated!','success')">Export PDF</button>
+        <button class="btn btn-ghost btn-sm" onclick="Toast.show('Report shared with client!','success')">Share with Client</button>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+// ── AI ASSISTANT ──
+function buildAiPredictions() {
+  const container = document.getElementById('aiPredictions');
+  if (!container || container.children.length > 0) return;
+  const predictions = [
+    { icon:'⚠️', color:'rgba(239,68,68,0.12)', tColor:'#f87171', title:'Delay Risk: Pearl Heights', desc:'3-day delay predicted due to cement shortage. Recommend reorder by May 28th.' },
+    { icon:'💰', color:'rgba(245,158,11,0.12)', tColor:'#fbbf24', title:'Budget Alert: Green Valley', desc:'Materials budget will exceed limit by 12% at current burn rate.' },
+    { icon:'✅', color:'rgba(16,185,129,0.12)', tColor:'#34d399', title:'On-Time Projection: Sunrise Villa', desc:'Project trending 2 days ahead of schedule. Excellent progress.' },
+    { icon:'📈', color:'rgba(99,102,241,0.12)', tColor:'#818cf8', title:'Revenue Forecast', desc:'May 2026 projected revenue: $480K — 18% above monthly target.' },
+  ];
+  predictions.forEach(p => {
+    const div = document.createElement('div');
+    div.style.cssText=`display:flex;gap:12px;padding:14px;background:${p.color};border-radius:var(--radius-md);`;
+    div.innerHTML=`<div style="font-size:1.1rem;flex-shrink:0">${p.icon}</div><div><div style="font-size:0.85rem;font-weight:700;color:${p.tColor};margin-bottom:3px">${p.title}</div><div style="font-size:0.8rem;color:var(--text-secondary)">${p.desc}</div></div>`;
+    container.appendChild(div);
+  });
+}
+
+function runAiEstimate() {
+  const result = document.getElementById('aiEstimateResult');
+  result.style.display='block';
+  result.innerHTML=`<div style="text-align:center;padding:8px"><div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px">🤖 AI Generating Estimate...</div><div style="width:24px;height:24px;border:2px solid rgba(99,102,241,0.3);border-top-color:#6366f1;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto"></div></div>`;
+  setTimeout(() => {
+    result.innerHTML=`
+      <div style="font-size:0.875rem;font-weight:700;margin-bottom:12px;color:#818cf8">🤖 AI Cost Estimate — 3BHK Villa, Mumbai</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem"><span>Foundation & Structure</span><span style="font-weight:700">$85,000</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem"><span>Walls & Roofing</span><span style="font-weight:700">$62,000</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem"><span>Electrical & Plumbing</span><span style="font-weight:700">$38,000</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem"><span>Finishing & Interior</span><span style="font-weight:700">$55,000</span></div>
+        <div style="height:1px;background:rgba(99,102,241,0.3);margin:4px 0"></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.95rem;font-weight:800"><span>Total Estimate</span><span style="color:#818cf8">$240,000</span></div>
+        <div style="font-size:0.72rem;color:var(--text-muted)">±8% variance • Premium quality • Mumbai rates • 2026</div>
+      </div>
+    `;
+    Toast.show('AI estimate generated! ±8% variance', 'success');
+  }, 2000);
+}
+
+// ── PROJECTS GRID ──
+function buildProjectsGrid() {
+  const grid = document.getElementById('projectsGrid');
+  if (!grid || grid.children.length > 0) return;
+  const projects = [
+    { name:'Sunrise Villa', client:'Amir Khan', status:'active', pct:72, budget:'$510K', stage:'Roofing', workers:24, deadline:'Sep 5, 2026' },
+    { name:'Green Valley', client:'Sara Ahmed', status:'active', pct:45, budget:'$380K', stage:'Walls', workers:18, deadline:'Nov 15, 2026' },
+    { name:'Pearl Heights', client:'Omar Malik', status:'active', pct:28, budget:'$620K', stage:'Structure', workers:31, deadline:'Dec 30, 2026' },
+    { name:'Blue Ridge Bungalow', client:'Fatima Noor', status:'active', pct:88, budget:'$290K', stage:'Interior', workers:12, deadline:'Jun 30, 2026' },
+    { name:'Maple Gardens', client:'Zubair Hassan', status:'planning', pct:0, budget:'$450K', stage:'Planning', workers:0, deadline:'Aug 1, 2026' },
+    { name:'The Grand Estate', client:'Hina Malik', status:'completed', pct:100, budget:'$820K', stage:'Completed', workers:0, deadline:'May 1, 2026' },
+  ];
+  projects.forEach(p => {
+    const statusBadge = p.status==='completed'?'badge-success':p.status==='planning'?'badge-info':'badge-primary';
+    const statusLabel = p.status.charAt(0).toUpperCase()+p.status.slice(1);
+    const div = document.createElement('div');
+    div.className='project-card animate-fade-up';
+    div.innerHTML=`
+      <div class="project-card-header">
+        <div>
+          <div class="project-card-title">${p.name}</div>
+          <div class="project-card-client">👤 ${p.client}</div>
+        </div>
+        <span class="badge ${statusBadge}">${statusLabel}</span>
+      </div>
+      <div class="project-card-progress">
+        <div style="display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:6px"><span style="color:var(--text-muted)">Progress</span><span style="font-weight:700">${p.pct}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${p.pct}%;${p.pct===100?'background:var(--gradient-success)':''}"></div></div>
+      </div>
+      <div class="project-card-footer">
+        <div class="project-card-meta">
+          <span class="project-card-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${p.workers}</span>
+          <span class="project-card-meta-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/></svg>${p.budget}</span>
+          <span class="project-card-meta-item">📅 ${p.deadline}</span>
+        </div>
+        <span class="badge badge-primary" style="font-size:0.7rem">${p.stage}</span>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+// ── CHAT ──
+function sendContractorMsg() {
+  const input = document.getElementById('contractorChatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const msgs = document.getElementById('contractorChatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg sent';
+  div.innerHTML = `<div><div class="chat-bubble">${msg}</div><div class="chat-time" style="text-align:right">Just now</div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  input.value = '';
+  setTimeout(() => {
+    const reply = document.createElement('div');
+    reply.className = 'chat-msg received';
+    reply.innerHTML = `<div class="avatar avatar-sm">AK</div><div><div class="chat-bubble">Thank you for the update! I'll review shortly. 👍</div><div class="chat-time">Just now</div></div>`;
+    msgs.appendChild(reply);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1500);
+}
+
+function createProject() {
+  Modal.close('newProjectModal');
+  Toast.show('Project created! Client access email sent automatically.', 'success');
+}
+
+// ── MOBILE SIDEBAR ──
+document.getElementById('sidebarMobileToggle').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('show');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+});
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  initRevenueChart();
+  initProjectStatusChart();
+  buildAlerts();
+  buildActivity();
+  buildProjectsGrid();
+  chartsInitialized['overview'] = true;
+  chartsInitialized['projects'] = true;
+});
+</script>
+</body>
+</html>

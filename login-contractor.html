@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contractor Login — ConstructFlow</title>
+  <meta name="description" content="Sign in to your ConstructFlow contractor dashboard to manage all your construction projects." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <style>
+    .auth-left-bg {
+      background: linear-gradient(160deg, #050510 0%, #0d1a0d 40%, #1a0d0d 100%);
+    }
+  </style>
+</head>
+<body>
+<div class="auth-page">
+
+  <!-- LEFT VISUAL PANEL -->
+  <div class="auth-left">
+    <div class="auth-left-bg"></div>
+    <div class="auth-left-overlay" style="background:linear-gradient(135deg,rgba(5,5,20,0.9),rgba(16,185,129,0.25),rgba(5,5,20,0.92))"></div>
+    <div class="auth-left-content">
+      <div class="auth-left-top">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;">
+          <div class="logo-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path d="M4 24L14 4L24 24H4Z" fill="url(#lg1c)"/>
+              <path d="M8 24V16H20V24" stroke="white" stroke-width="1.5" fill="none"/>
+              <defs><linearGradient id="lg1c" x1="4" y1="4" x2="24" y2="24"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+            </svg>
+          </div>
+          <span class="logo-text" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;font-size:1.1rem;letter-spacing:-0.02em">ConstructFlow</span>
+        </a>
+
+        <div>
+          <h1 class="auth-left-title">Command Your Construction Business</h1>
+          <p class="auth-left-desc">Access your full operations dashboard — manage projects, workers, materials, finances, and client communication from one powerful hub.</p>
+        </div>
+
+        <!-- Animated Dashboard Preview -->
+        <div style="display:flex;justify-content:center;padding:16px 0;">
+          <svg width="320" height="200" viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 20px 40px rgba(16,185,129,0.2))">
+            <!-- Dashboard card background -->
+            <rect x="10" y="10" width="300" height="180" rx="12" fill="#0d1a1d" stroke="#10b981" stroke-opacity="0.2" stroke-width="1"/>
+            <!-- Header bar -->
+            <rect x="10" y="10" width="300" height="36" rx="12" fill="#111f22"/>
+            <rect x="10" y="34" width="300" height="12" fill="#111f22"/>
+            <circle cx="32" cy="28" r="8" fill="#10b981" fill-opacity="0.3"/>
+            <text x="48" y="33" fill="white" font-size="10" font-family="Inter" font-weight="600" opacity="0.8">Contractor Dashboard</text>
+            <!-- Sidebar indicators -->
+            <rect x="20" y="58" width="56" height="124" rx="6" fill="#0a1214"/>
+            <rect x="24" y="66" width="48" height="6" rx="3" fill="#10b981" fill-opacity="0.4"/>
+            <rect x="24" y="80" width="38" height="4" rx="2" fill="#ffffff" fill-opacity="0.08"/>
+            <rect x="24" y="92" width="42" height="4" rx="2" fill="#ffffff" fill-opacity="0.08"/>
+            <rect x="24" y="104" width="36" height="4" rx="2" fill="#ffffff" fill-opacity="0.08"/>
+            <rect x="24" y="116" width="44" height="4" rx="2" fill="#ffffff" fill-opacity="0.08"/>
+            <rect x="24" y="128" width="40" height="4" rx="2" fill="#ffffff" fill-opacity="0.08"/>
+            <!-- Main content area - stat cards -->
+            <rect x="84" y="54" width="66" height="42" rx="6" fill="#0d1f1a" stroke="#10b981" stroke-opacity="0.25" stroke-width="1"/>
+            <text x="92" y="70" fill="#34d399" font-size="8" font-family="Inter" font-weight="600">PROJECTS</text>
+            <text x="92" y="86" fill="white" font-size="16" font-family="Inter" font-weight="800">12</text>
+            <rect x="158" y="54" width="66" height="42" rx="6" fill="#1a1a0d" stroke="#f59e0b" stroke-opacity="0.25" stroke-width="1"/>
+            <text x="166" y="70" fill="#fbbf24" font-size="8" font-family="Inter" font-weight="600">WORKERS</text>
+            <text x="166" y="86" fill="white" font-size="16" font-family="Inter" font-weight="800">87</text>
+            <rect x="232" y="54" width="66" height="42" rx="6" fill="#1a0d1a" stroke="#8b5cf6" stroke-opacity="0.25" stroke-width="1"/>
+            <text x="240" y="70" fill="#a78bfa" font-size="8" font-family="Inter" font-weight="600">BUDGET</text>
+            <text x="240" y="86" fill="white" font-size="14" font-family="Inter" font-weight="800">$2.4M</text>
+            <!-- Chart area -->
+            <rect x="84" y="104" width="214" height="70" rx="6" fill="#0d1a1d" stroke="#10b981" stroke-opacity="0.15" stroke-width="1"/>
+            <text x="94" y="118" fill="white" font-size="9" font-family="Inter" font-weight="600" opacity="0.6">Monthly Progress</text>
+            <!-- Chart bars -->
+            <rect x="94" y="138" width="16" height="28" rx="2" fill="#10b981" fill-opacity="0.25"/>
+            <rect x="116" y="128" width="16" height="38" rx="2" fill="#10b981" fill-opacity="0.35"/>
+            <rect x="138" y="133" width="16" height="33" rx="2" fill="#10b981" fill-opacity="0.3"/>
+            <rect x="160" y="120" width="16" height="46" rx="2" fill="#10b981" fill-opacity="0.45"/>
+            <rect x="182" y="126" width="16" height="40" rx="2" fill="#10b981" fill-opacity="0.35"/>
+            <rect x="204" y="112" width="16" height="54" rx="2" fill="#10b981"/>
+            <rect x="226" y="118" width="16" height="48" rx="2" fill="#10b981" fill-opacity="0.5"/>
+            <rect x="248" y="124" width="16" height="42" rx="2" fill="#10b981" fill-opacity="0.4"/>
+            <!-- Animated glow on tallest bar -->
+            <rect x="204" y="112" width="16" height="54" rx="2" fill="#34d399" opacity="0.3">
+              <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite"/>
+            </rect>
+          </svg>
+        </div>
+
+        <div class="auth-features-list">
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon" style="background:rgba(16,185,129,0.15)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </div>
+            Multi-project management hub
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon" style="background:rgba(16,185,129,0.15)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            Labour & attendance management
+          </div>
+          <div class="auth-feature-item">
+            <div class="auth-feature-icon" style="background:rgba(16,185,129,0.15)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            Financial analytics & invoicing
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-stats-row">
+        <div class="auth-stat">
+          <span class="auth-stat-num">12K+</span>
+          <span class="auth-stat-label">Projects Built</span>
+        </div>
+        <div class="auth-stat">
+          <span class="auth-stat-num">840+</span>
+          <span class="auth-stat-label">Contractors</span>
+        </div>
+        <div class="auth-stat">
+          <span class="auth-stat-num">4.9★</span>
+          <span class="auth-stat-label">App Rating</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT FORM PANEL -->
+  <div class="auth-right">
+    <div class="auth-form-container">
+
+      <div class="auth-form-header">
+        <a href="index.html" class="auth-form-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Home
+        </a>
+        <div class="auth-role-badge" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.3);color:#34d399">
+          <span class="auth-role-dot" style="background:#34d399;box-shadow:0 0 8px #34d399"></span>
+          Contractor Portal
+        </div>
+        <h1 class="auth-form-title">Contractor Sign In</h1>
+        <p class="auth-form-subtitle">Access your complete project management dashboard</p>
+      </div>
+
+      <form class="auth-form" id="contractorLoginForm" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="contractorEmail">Work Email</label>
+          <div class="form-input-icon">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input id="contractorEmail" type="email" class="form-input" placeholder="you@company.com" required autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="auth-forgot">
+            <label class="form-label" for="contractorPassword">Password</label>
+          </div>
+          <div class="form-input-icon">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input id="contractorPassword" type="password" class="form-input" placeholder="Enter your password" required autocomplete="current-password" style="padding-right:44px"/>
+            <button type="button" onclick="togglePassword('contractorPassword',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);display:flex;align-items:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="companyName">Company Name</label>
+          <div class="form-input-icon">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <input id="companyName" type="text" class="form-input" placeholder="e.g. Apex Builders Ltd." required autocomplete="organization" />
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:24px">
+          <label class="form-checkbox">
+            <input type="checkbox" id="rememberLogin" checked />
+            <span>Remember me on this device</span>
+          </label>
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="contractorLoginBtn" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 8px 32px rgba(16,185,129,0.35)">
+          <span class="btn-text" style="display:flex;align-items:center;gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Access Dashboard
+          </span>
+          <div class="btn-spinner"></div>
+        </button>
+
+      </form>
+
+      <p class="auth-footer-text">
+        New to ConstructFlow? <a href="#" onclick="Toast.show('Contact our sales team at sales@constructflow.io','info');return false">Request a demo →</a>
+      </p>
+
+      <div class="auth-switch-panel">
+        <span style="font-size:0.78rem;color:var(--text-muted)">Are you a client?</span>
+        <a href="login-client.html" class="auth-switch-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          Client Login
+        </a>
+      </div>
+
+      <div style="display:flex;justify-content:center;margin-top:24px;">
+        <button class="btn-theme-toggle theme-toggle" title="Toggle theme" style="display:flex;align-items:center;gap:6px;padding:8px 14px;font-size:0.8rem;color:var(--text-muted);">
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <span>Switch Theme</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+function togglePassword(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const isText = input.type === 'text';
+  input.type = isText ? 'password' : 'text';
+  btn.innerHTML = isText
+    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+}
+
+document.getElementById('contractorLoginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('contractorLoginBtn');
+  const email = document.getElementById('contractorEmail').value;
+  const password = document.getElementById('contractorPassword').value;
+  const company = document.getElementById('companyName').value;
+
+  if (!email || !password || !company) {
+    Toast.show('Please fill in all required fields', 'warning');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  await new Promise(r => setTimeout(r, 1800));
+
+  Toast.show('Authentication successful! Launching dashboard...', 'success');
+  setTimeout(() => window.location.href = 'dashboard-contractor.html', 800);
+});
+</script>
+</body>
+</html>

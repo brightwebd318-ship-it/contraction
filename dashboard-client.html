@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Dashboard — ConstructFlow</title>
+  <meta name="description" content="Monitor your house construction project in real-time — track progress, budget, materials, and approvals." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR MOBILE OVERLAY -->
+  <div class="sidebar-mobile-overlay" id="sidebarOverlay"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-icon" style="width:32px;height:32px;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+            <path d="M4 24L14 4L24 24H4Z" fill="url(#sbLg)"/>
+            <path d="M8 24V16H20V24" stroke="white" stroke-width="1.5" fill="none"/>
+            <defs><linearGradient id="sbLg" x1="4" y1="4" x2="24" y2="24"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          </svg>
+        </div>
+        <span class="logo-text" style="font-weight:700;font-size:0.95rem;letter-spacing:-0.02em;background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">ConstructFlow</span>
+      </div>
+      <button class="sidebar-collapse-btn" title="Collapse sidebar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="sidebar-body">
+      <!-- Project info -->
+      <div style="margin:0 4px 16px;padding:12px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:var(--radius-md)">
+        <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand-primary);margin-bottom:4px">Active Project</div>
+        <div style="font-size:0.875rem;font-weight:700;margin-bottom:2px">Sunrise Villa</div>
+        <div style="font-size:0.72rem;color:var(--text-muted)">Project #CF-2026-00142</div>
+        <div style="margin-top:10px">
+          <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--text-muted);margin-bottom:4px"><span>Overall Progress</span><span style="color:var(--text-primary);font-weight:700">72%</span></div>
+          <div class="progress-bar" data-progress="72"><div class="progress-fill" style="width:72%"></div></div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav-group">
+        <div class="sidebar-nav-label">Navigation</div>
+        <a href="#overview" class="sidebar-nav-item active" onclick="showPage('overview',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+          <span class="sidebar-nav-text">Overview</span>
+        </a>
+        <a href="#timeline" class="sidebar-nav-item" onclick="showPage('timeline',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+          <span class="sidebar-nav-text">Timeline</span>
+        </a>
+        <a href="#costs" class="sidebar-nav-item" onclick="showPage('costs',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <span class="sidebar-nav-text">Cost Tracking</span>
+        </a>
+        <a href="#updates" class="sidebar-nav-item" onclick="showPage('updates',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <span class="sidebar-nav-text">Site Updates</span>
+          <span class="sidebar-nav-badge">3</span>
+        </a>
+        <a href="#approvals" class="sidebar-nav-item" onclick="showPage('approvals',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <span class="sidebar-nav-text">Approvals</span>
+          <span class="sidebar-nav-badge" style="background:var(--brand-warning)">2</span>
+        </a>
+        <a href="#chat" class="sidebar-nav-item" onclick="showPage('chat',this)">
+          <div class="sidebar-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <span class="sidebar-nav-text">Chat</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">AK</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Amir Khan</div>
+          <div class="sidebar-user-role">Client</div>
+        </div>
+        <button onclick="window.location.href='login-client.html'" style="background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px;" title="Logout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="dashboard-main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="topbar-icon-btn sidebar-mobile-toggle" id="sidebarMobileToggle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div>
+          <div class="topbar-title" id="pageTitle">Overview</div>
+          <div class="topbar-subtitle">Sunrise Villa • Last updated: Today, 2:34 PM</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-theme-toggle theme-toggle" title="Toggle theme">
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="topbar-icon-btn" onclick="Modal.open('notifModal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <div class="avatar" style="cursor:pointer">AK</div>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
+      <!-- ======= OVERVIEW PAGE ======= -->
+      <div id="page-overview">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Project Overview</h1>
+            <p>Sunrise Villa — House Construction Project</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-ghost btn-sm">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export Report
+            </button>
+          </div>
+        </div>
+
+        <!-- STAT CARDS -->
+        <div class="stats-row stats-row-4" style="margin-bottom:24px">
+          <div class="stat-card" style="--card-accent:linear-gradient(90deg,#6366f1,#8b5cf6);--card-accent-bg:rgba(99,102,241,0.12);--card-accent-color:#818cf8">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Overall Progress</span>
+              <div class="stat-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            </div>
+            <div class="stat-card-value" data-counter="72" data-suffix="%">72%</div>
+            <div class="progress-bar" data-progress="72"><div class="progress-fill" style="width:72%"></div></div>
+            <span class="stat-card-change positive">↑ 8% this week</span>
+          </div>
+
+          <div class="stat-card" style="--card-accent:linear-gradient(90deg,#f59e0b,#fbbf24);--card-accent-bg:rgba(245,158,11,0.12);--card-accent-color:#fbbf24">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Budget Used</span>
+              <div class="stat-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            </div>
+            <div class="stat-card-value">$284K</div>
+            <div class="progress-bar" data-progress="56"><div class="progress-fill" style="width:56%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div>
+            <span class="stat-card-change" style="color:var(--text-muted)">of $510K total budget</span>
+          </div>
+
+          <div class="stat-card" style="--card-accent:linear-gradient(90deg,#10b981,#34d399);--card-accent-bg:rgba(16,185,129,0.12);--card-accent-color:#34d399">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Remaining Budget</span>
+              <div class="stat-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            </div>
+            <div class="stat-card-value" style="color:#34d399">$226K</div>
+            <div class="progress-bar" data-progress="44"><div class="progress-fill" style="width:44%;background:linear-gradient(90deg,#10b981,#34d399)"></div></div>
+            <span class="stat-card-change positive">Budget on track ✓</span>
+          </div>
+
+          <div class="stat-card" style="--card-accent:linear-gradient(90deg,#06b6d4,#22d3ee);--card-accent-bg:rgba(6,182,212,0.12);--card-accent-color:#22d3ee">
+            <div class="stat-card-header">
+              <span class="stat-card-label">Workers Today</span>
+              <div class="stat-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+            </div>
+            <div class="stat-card-value" data-counter="24">24</div>
+            <div style="display:flex;gap:4px;margin-top:2px">
+              <span class="badge badge-success">18 Present</span>
+              <span class="badge badge-warning">6 Leave</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Current Stage + Chart row -->
+        <div class="dashboard-grid grid-2-1" style="margin-bottom:24px">
+
+          <!-- Current Stage Card -->
+          <div class="section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">🏗️ Current Stage: Roofing</span>
+              <span class="badge badge-primary">In Progress</span>
+            </div>
+            <div class="section-card-body">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+                <div style="background:var(--bg-overlay);border-radius:var(--radius-md);padding:14px;text-align:center">
+                  <div style="font-size:1.4rem;font-weight:800;color:#818cf8">68%</div>
+                  <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px">Stage Progress</div>
+                </div>
+                <div style="background:var(--bg-overlay);border-radius:var(--radius-md);padding:14px;text-align:center">
+                  <div style="font-size:1.4rem;font-weight:800;color:#fbbf24">8</div>
+                  <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px">Days Remaining</div>
+                </div>
+                <div style="background:var(--bg-overlay);border-radius:var(--radius-md);padding:14px;text-align:center">
+                  <div style="font-size:1.4rem;font-weight:800;color:#34d399">3</div>
+                  <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px">Photos Added</div>
+                </div>
+              </div>
+              <div style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">
+                  <span>Stage Completion</span><span style="color:var(--text-primary);font-weight:700">68%</span>
+                </div>
+                <div class="progress-bar" data-progress="68"><div class="progress-fill" style="width:68%"></div></div>
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <div style="flex:1;min-width:120px;background:var(--bg-overlay);border-radius:var(--radius-sm);padding:10px">
+                  <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:2px">Started</div>
+                  <div style="font-size:0.85rem;font-weight:700">May 10, 2026</div>
+                </div>
+                <div style="flex:1;min-width:120px;background:var(--bg-overlay);border-radius:var(--radius-sm);padding:10px">
+                  <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:2px">Expected End</div>
+                  <div style="font-size:0.85rem;font-weight:700">Jun 2, 2026</div>
+                </div>
+                <div style="flex:1;min-width:120px;background:var(--bg-overlay);border-radius:var(--radius-sm);padding:10px">
+                  <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:2px">Contractor</div>
+                  <div style="font-size:0.85rem;font-weight:700">BuildPro Ltd.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's Updates -->
+          <div class="section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">📋 Today's Updates</span>
+              <span class="badge badge-success">3 New</span>
+            </div>
+            <div class="section-card-body" style="padding:0">
+              <div class="activity-item" style="padding:14px 20px">
+                <div class="activity-icon" style="background:rgba(16,185,129,0.12);color:#34d399">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-text"><strong>North roof section</strong> completed</div>
+                  <div class="activity-time">2:34 PM — Site Supervisor</div>
+                </div>
+              </div>
+              <div class="activity-item" style="padding:14px 20px">
+                <div class="activity-icon" style="background:rgba(245,158,11,0.12);color:#fbbf24">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-text"><strong>Roofing tiles</strong> — 320 units delivered</div>
+                  <div class="activity-time">11:20 AM — Warehouse</div>
+                </div>
+              </div>
+              <div class="activity-item" style="padding:14px 20px">
+                <div class="activity-icon" style="background:rgba(99,102,241,0.12);color:#818cf8">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-text"><strong>24 workers</strong> on site today</div>
+                  <div class="activity-time">8:00 AM — Attendance</div>
+                </div>
+              </div>
+              <div class="activity-item" style="padding:14px 20px;border-bottom:none">
+                <div class="activity-icon" style="background:rgba(6,182,212,0.12);color:#22d3ee">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="activity-content">
+                  <div class="activity-text">Weather: <strong>Sunny, 32°C</strong> — Ideal conditions</div>
+                  <div class="activity-time">7:00 AM — Weather Check</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Material Delivery + Budget Chart -->
+        <div class="dashboard-grid grid-2" style="margin-bottom:24px">
+          <div class="section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">📦 Materials Delivered Today</span>
+            </div>
+            <div class="section-card-body" style="padding:0">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Qty</th>
+                    <th>Supplier</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><b>Roofing Tiles</b></td><td>320 pcs</td><td>TilePro Co.</td><td><span class="badge badge-success">Delivered</span></td></tr>
+                  <tr><td><b>Steel Rods</b></td><td>50 kg</td><td>MetalWorld</td><td><span class="badge badge-success">Delivered</span></td></tr>
+                  <tr><td><b>Cement (OPC)</b></td><td>40 bags</td><td>UltraTech</td><td><span class="badge badge-warning">In Transit</span></td></tr>
+                  <tr><td><b>Paint (Primer)</b></td><td>20 L</td><td>Asian Paints</td><td><span class="badge badge-primary">Ordered</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-card-header">
+              <span class="section-card-title">💰 Budget Analytics</span>
+              <div class="tabs">
+                <button class="tab-btn active" data-tab="pie" onclick="switchBudgetTab('pie',this)">Pie</button>
+                <button class="tab-btn" data-tab="bar" onclick="switchBudgetTab('bar',this)">Bar</button>
+              </div>
+            </div>
+            <div class="section-card-body">
+              <div class="chart-container" style="height:220px">
+                <canvas id="budgetChart"></canvas>
+              </div>
+              <div class="cost-breakdown" style="margin-top:16px">
+                <div class="cost-item"><div class="cost-item-dot" style="background:#6366f1"></div><span class="cost-item-label">Materials</span><span class="cost-item-amount">$142K</span><span class="cost-item-pct">50%</span></div>
+                <div class="cost-item"><div class="cost-item-dot" style="background:#10b981"></div><span class="cost-item-label">Labour</span><span class="cost-item-amount">$85K</span><span class="cost-item-pct">30%</span></div>
+                <div class="cost-item"><div class="cost-item-dot" style="background:#f59e0b"></div><span class="cost-item-label">Contractor Fees</span><span class="cost-item-amount">$43K</span><span class="cost-item-pct">15%</span></div>
+                <div class="cost-item"><div class="cost-item-dot" style="background:#ef4444"></div><span class="cost-item-label">Miscellaneous</span><span class="cost-item-amount">$14K</span><span class="cost-item-pct">5%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /overview -->
+
+      <!-- ======= TIMELINE PAGE ======= -->
+      <div id="page-timeline" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Construction Timeline</h1>
+            <p>Track every stage of your house from foundation to finishing</p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-card-header">
+            <span class="section-card-title">🏗️ Project Stages</span>
+            <div style="display:flex;gap:10px;align-items:center;font-size:0.8rem;color:var(--text-muted)">
+              <span style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:#34d399;display:inline-block"></span>Completed</span>
+              <span style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:#818cf8;display:inline-block"></span>Active</span>
+              <span style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;background:var(--border-strong);display:inline-block"></span>Pending</span>
+            </div>
+          </div>
+          <div class="section-card-body">
+            <div class="timeline" id="constructionTimeline"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= COSTS PAGE ======= -->
+      <div id="page-costs" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Cost Tracking</h1>
+            <p>Complete financial transparency for your project</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary btn-sm" onclick="Toast.show('Payment receipt downloaded!','success')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Statement
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-row stats-row-4" style="margin-bottom:24px">
+          <div class="stat-card" style="--card-accent:var(--gradient-brand)">
+            <div class="stat-card-header"><span class="stat-card-label">Total Budget</span><div class="stat-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div></div>
+            <div class="stat-card-value">$510,000</div>
+            <span class="stat-card-change" style="color:var(--text-muted)">Approved budget</span>
+          </div>
+          <div class="stat-card" style="--card-accent:var(--gradient-warning)">
+            <div class="stat-card-header"><span class="stat-card-label">Amount Paid</span><div class="stat-card-icon" style="background:rgba(245,158,11,0.12);color:#fbbf24"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div></div>
+            <div class="stat-card-value">$284,000</div>
+            <span class="stat-card-change positive">↑ $42K this month</span>
+          </div>
+          <div class="stat-card" style="--card-accent:var(--gradient-success)">
+            <div class="stat-card-header"><span class="stat-card-label">Remaining</span><div class="stat-card-icon" style="background:rgba(16,185,129,0.12);color:#34d399"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg></div></div>
+            <div class="stat-card-value" style="color:#34d399">$226,000</div>
+            <span class="stat-card-change positive">Budget healthy</span>
+          </div>
+          <div class="stat-card" style="--card-accent:linear-gradient(90deg,#ef4444,#f87171)">
+            <div class="stat-card-header"><span class="stat-card-label">Pending Payment</span><div class="stat-card-icon" style="background:rgba(239,68,68,0.12);color:#f87171"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div></div>
+            <div class="stat-card-value" style="color:#f87171">$28,000</div>
+            <span class="stat-card-change negative">Due: June 1, 2026</span>
+          </div>
+        </div>
+
+        <div class="dashboard-grid grid-2" style="margin-bottom:24px">
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">📊 Cost Breakdown</span></div>
+            <div class="section-card-body">
+              <div class="chart-container" style="height:260px"><canvas id="costPieChart"></canvas></div>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="section-card-header"><span class="section-card-title">📈 Monthly Spend</span></div>
+            <div class="section-card-body">
+              <div class="chart-container" style="height:260px"><canvas id="monthlySpendChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-card-header"><span class="section-card-title">🧾 Payment History</span></div>
+          <div class="section-card-body" style="padding:0">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Method</th><th>Status</th></tr></thead>
+              <tbody id="paymentHistoryTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= UPDATES PAGE ======= -->
+      <div id="page-updates" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Site Updates</h1>
+            <p>Daily progress reports, photos, and videos from your construction site</p>
+          </div>
+        </div>
+        <div id="siteUpdatesGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px"></div>
+      </div>
+
+      <!-- ======= APPROVALS PAGE ======= -->
+      <div id="page-approvals" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Approvals</h1>
+            <p>Review and approve construction stages and change requests</p>
+          </div>
+        </div>
+        <div id="approvalsGrid" style="display:flex;flex-direction:column;gap:16px"></div>
+      </div>
+
+      <!-- ======= CHAT PAGE ======= -->
+      <div id="page-chat" style="display:none">
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1>Chat</h1>
+            <p>Direct communication with your contractor team</p>
+          </div>
+        </div>
+        <div class="chat-layout">
+          <div class="chat-sidebar">
+            <div class="chat-contact active">
+              <div class="avatar avatar-sm" style="background:var(--gradient-success)">RP</div>
+              <div><div class="chat-contact-name">Rahul (PM)</div><div class="chat-contact-preview">Roofing update ready...</div></div>
+            </div>
+            <div class="chat-contact">
+              <div class="avatar avatar-sm">SM</div>
+              <div><div class="chat-contact-name">Site Manager</div><div class="chat-contact-preview">Workers arriving 8am</div></div>
+            </div>
+            <div class="chat-contact">
+              <div class="avatar avatar-sm" style="background:var(--gradient-warning)">BP</div>
+              <div><div class="chat-contact-name">BuildPro Support</div><div class="chat-contact-preview">Invoice sent to email</div></div>
+            </div>
+          </div>
+          <div class="chat-main">
+            <div class="chat-header">
+              <div class="avatar avatar-sm" style="background:var(--gradient-success)">RP</div>
+              <div><div style="font-size:0.875rem;font-weight:700">Rahul Patel</div><div style="font-size:0.72rem;color:var(--text-muted)">Project Manager • Online</div></div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-msg received">
+                <div class="avatar avatar-sm" style="background:var(--gradient-success)">RP</div>
+                <div><div class="chat-bubble">Good morning! Today's roofing work is progressing well. North section is 68% complete.</div><div class="chat-time">8:15 AM</div></div>
+              </div>
+              <div class="chat-msg sent">
+                <div><div class="chat-bubble">Great! When do you expect the full roof to be done?</div><div class="chat-time" style="text-align:right">8:22 AM</div></div>
+              </div>
+              <div class="chat-msg received">
+                <div class="avatar avatar-sm" style="background:var(--gradient-success)">RP</div>
+                <div><div class="chat-bubble">Estimated completion by June 2nd, 2026. We've uploaded 3 new photos to the timeline section for your review.</div><div class="chat-time">8:25 AM</div></div>
+              </div>
+              <div class="chat-msg sent">
+                <div><div class="chat-bubble">Perfect. Please make sure the waterproofing quality is checked before moving to the next stage. 👍</div><div class="chat-time" style="text-align:right">2:30 PM</div></div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <input class="chat-input" id="clientChatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendClientMsg()"/>
+              <button class="btn btn-primary btn-icon" onclick="sendClientMsg()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </main>
+</div>
+
+<!-- NOTIFICATION MODAL -->
+<div class="modal-overlay" id="notifModal">
+  <div class="modal" style="max-width:420px;padding:0;overflow:hidden">
+    <div class="modal-header" style="padding:20px 24px;border-bottom:1px solid var(--border-default)">
+      <h2 class="modal-title">Notifications</h2>
+      <button class="modal-close" data-modal-close="notifModal"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="notification-list">
+      <div class="notif-item unread">
+        <div class="notif-icon" style="background:rgba(99,102,241,0.12);color:#818cf8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div>
+        <div class="notif-content"><div class="notif-title">Roofing Stage Updated</div><div class="notif-desc">North roof section completed — 68% overall roofing done</div><div class="notif-time">2 hours ago</div></div>
+      </div>
+      <div class="notif-item unread">
+        <div class="notif-icon" style="background:rgba(245,158,11,0.12);color:#fbbf24"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="notif-content"><div class="notif-title">Payment Due Reminder</div><div class="notif-desc">$28,000 payment due on June 1, 2026</div><div class="notif-time">5 hours ago</div></div>
+      </div>
+      <div class="notif-item">
+        <div class="notif-icon" style="background:rgba(16,185,129,0.12);color:#34d399"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="notif-content"><div class="notif-title">Approval Request</div><div class="notif-desc">Contractor requesting approval for Roofing Stage completion</div><div class="notif-time">Yesterday</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+// ── PAGE NAVIGATION ──
+function showPage(page, navItem) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
+  const target = document.getElementById('page-' + page);
+  if (target) { target.style.display = 'block'; target.style.animation = 'fadeIn 0.3s ease'; }
+  if (navItem) {
+    document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
+    navItem.classList.add('active');
+    document.getElementById('pageTitle').textContent = navItem.querySelector('.sidebar-nav-text').textContent.trim();
+  }
+  if (page === 'costs') initCostCharts();
+  if (page === 'timeline') buildTimeline();
+  if (page === 'updates') buildUpdates();
+  if (page === 'approvals') buildApprovals();
+}
+
+// ── BUDGET CHART ──
+let budgetChart;
+function initBudgetChart(type = 'pie') {
+  const ctx = document.getElementById('budgetChart');
+  if (!ctx) return;
+  if (budgetChart) budgetChart.destroy();
+
+  const theme = document.documentElement.getAttribute('data-theme');
+  const textColor = theme === 'dark' ? '#9090a8' : '#5c5c70';
+  const gridColor = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+
+  const data = { labels: ['Materials', 'Labour', 'Contractor', 'Misc'], datasets: [{ data: [142, 85, 43, 14], backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444'], borderWidth: 0, hoverOffset: 8 }] };
+
+  budgetChart = new Chart(ctx, {
+    type, data,
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: type === 'pie', position: 'bottom', labels: { color: textColor, padding: 16, font: { size: 12, family: 'Plus Jakarta Sans', weight: '600' } } }, tooltip: { backgroundColor: '#1c1c28', titleColor: '#f0f0f8', bodyColor: '#9090a8', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1 } }, scales: type === 'bar' ? { y: { ticks: { color: textColor }, grid: { color: gridColor } }, x: { ticks: { color: textColor }, grid: { display: false } } } : {} }
+  });
+}
+
+function switchBudgetTab(type, btn) {
+  document.querySelectorAll('[onclick^="switchBudgetTab"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  initBudgetChart(type);
+}
+
+// ── COST CHARTS ──
+let costPie, monthlyChart;
+function initCostCharts() {
+  const theme = document.documentElement.getAttribute('data-theme');
+  const textColor = theme === 'dark' ? '#9090a8' : '#5c5c70';
+  const gridColor = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+
+  const ctx1 = document.getElementById('costPieChart');
+  if (ctx1 && !costPie) {
+    costPie = new Chart(ctx1, {
+      type: 'doughnut',
+      data: { labels: ['Foundation','Structure','Walls','Roofing','Electrical','Plumbing','Paint','Interior','Finishing'], datasets: [{ data: [62,54,38,42,22,28,18,14,6], backgroundColor: ['#6366f1','#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#3b82f6','#84cc16'], borderWidth: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'right', labels: { color: textColor, padding: 12, font: { size: 11, family: 'Plus Jakarta Sans', weight: '600' } } }, tooltip: { backgroundColor: '#1c1c28', titleColor: '#f0f0f8', bodyColor: '#9090a8', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1 } } }
+    });
+  }
+
+  const ctx2 = document.getElementById('monthlySpendChart');
+  if (ctx2 && !monthlyChart) {
+    monthlyChart = new Chart(ctx2, {
+      type: 'bar',
+      data: { labels: ['Jan','Feb','Mar','Apr','May','Jun'], datasets: [{ label: 'Spent ($K)', data: [32,48,55,41,64,44], backgroundColor: 'rgba(99,102,241,0.7)', borderRadius: 8, borderSkipped: false }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1c1c28', titleColor: '#f0f0f8', bodyColor: '#9090a8', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1 } }, scales: { y: { ticks: { color: textColor }, grid: { color: gridColor }, beginAtZero: true }, x: { ticks: { color: textColor }, grid: { display: false } } } }
+    });
+  }
+}
+
+// ── TIMELINE ──
+const stages = [
+  { name: 'Foundation', pct: 100, status: 'done', start: 'Jan 5', end: 'Feb 10', desc: 'Excavation, footing, and concrete foundation slab completed.' },
+  { name: 'Structure', pct: 100, status: 'done', start: 'Feb 12', end: 'Mar 20', desc: 'Steel framework, columns, and structural beams erected.' },
+  { name: 'Wall Work', pct: 100, status: 'done', start: 'Mar 22', end: 'Apr 15', desc: 'Brick and block walls, window/door frames installed.' },
+  { name: 'Roofing', pct: 68, status: 'active', start: 'May 10', end: 'Jun 2', desc: 'Roof structure, tiles, and waterproofing in progress.' },
+  { name: 'Electrical', pct: 0, status: 'pending', start: 'Jun 5', end: 'Jun 25', desc: 'Wiring, conduits, panels, and fixture rough-ins.' },
+  { name: 'Plumbing', pct: 0, status: 'pending', start: 'Jun 10', end: 'Jul 5', desc: 'Pipe installation, drainage, and fixture connections.' },
+  { name: 'Painting', pct: 0, status: 'pending', start: 'Jul 8', end: 'Jul 22', desc: 'Primer, base coat, and final interior/exterior painting.' },
+  { name: 'Interior', pct: 0, status: 'pending', start: 'Jul 25', end: 'Aug 15', desc: 'Flooring, ceiling work, cabinetry, and interior fit-out.' },
+  { name: 'Finishing', pct: 0, status: 'pending', start: 'Aug 18', end: 'Sep 5', desc: 'Final touches, cleaning, inspection, and handover.' },
+];
+
+function buildTimeline() {
+  const container = document.getElementById('constructionTimeline');
+  if (!container || container.children.length > 0) return;
+
+  stages.forEach((s, i) => {
+    const colors = { done: '#34d399', active: '#818cf8', pending: 'var(--border-strong)' };
+    const bgColors = { done: 'rgba(16,185,129,0.12)', active: 'rgba(99,102,241,0.12)', pending: 'rgba(255,255,255,0.04)' };
+    const div = document.createElement('div');
+    div.className = 'timeline-item animate-fade-up';
+    div.style.animationDelay = (i * 0.07) + 's';
+    div.innerHTML = `
+      <div class="timeline-indicator">
+        <div class="timeline-dot ${s.status}"></div>
+      </div>
+      <div class="timeline-content" style="padding-bottom:20px">
+        <div style="background:${bgColors[s.status]};border:1px solid ${colors[s.status]}33;border-radius:var(--radius-md);padding:16px">
+          <div class="timeline-header">
+            <div class="timeline-title">${i+1}. ${s.name}</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="badge ${s.status==='done'?'badge-success':s.status==='active'?'badge-primary':'badge-info'}">${s.status==='done'?'✓ Done':s.status==='active'?'In Progress':'Upcoming'}</span>
+              <span class="timeline-dates">${s.start} → ${s.end}</span>
+            </div>
+          </div>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px">${s.desc}</p>
+          <div class="timeline-progress">
+            <div class="timeline-progress-header"><span class="timeline-progress-label">Completion</span><span class="timeline-progress-pct">${s.pct}%</span></div>
+            <div class="progress-bar" data-progress="${s.pct}"><div class="progress-fill" style="width:${s.pct}%;${s.status==='done'?'background:var(--gradient-success)':''}"></div></div>
+          </div>
+          ${s.status !== 'pending' ? `<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" onclick="Toast.show('Opening ${s.name} photos...','info')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Photos
+            </button>
+            <button class="btn btn-ghost btn-sm" onclick="Toast.show('Loading ${s.name} video...','info')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Video
+            </button>
+            ${s.pct===100?`<button class="btn btn-success btn-sm" onclick="Toast.show('${s.name} approval confirmed!','success')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Approved</button>`:''}
+          </div>` : `<button class="btn btn-ghost btn-sm" style="margin-top:8px;opacity:0.5" disabled>Awaiting Start</button>`}
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ── SITE UPDATES ──
+const updateData = [
+  { date: 'May 25, 2026', title: 'North Roof Section — Progress', desc: 'North section tiles laid (68% complete). Waterproofing membrane installed successfully.', weather: 'Sunny, 32°C', img: true, worker: 'Site Supervisor' },
+  { date: 'May 24, 2026', title: 'Roofing Material Delivery', desc: 'Delivered 320 roofing tiles from TilePro Co. All inspected — zero breakage reported.', weather: 'Partly Cloudy, 29°C', img: false, worker: 'Warehouse Team' },
+  { date: 'May 23, 2026', title: 'Daily Progress Report', desc: 'Ridge beam installation completed. Team of 18 workers on site. No delays reported.', weather: 'Sunny, 33°C', img: true, worker: 'Rahul Patel (PM)' },
+];
+
+function buildUpdates() {
+  const grid = document.getElementById('siteUpdatesGrid');
+  if (!grid || grid.children.length > 0) return;
+  updateData.forEach((u, i) => {
+    const div = document.createElement('div');
+    div.className = 'section-card animate-fade-up';
+    div.style.animationDelay = (i*0.1)+'s';
+    div.innerHTML = `
+      <div style="height:160px;background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.3));border-radius:var(--radius-md) var(--radius-md) 0 0;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative" onclick="Toast.show('Loading photo viewer...','info')">
+        <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 100%22><rect fill=%22%23111%22 width=%22200%22 height=%22100%22/><polygon points=%220,80 40,30 80,50 120,20 160,45 200,25 200,100 0,100%22 fill=%22%236366f110%22/></svg>') center/cover no-repeat;opacity:0.8"></div>
+        <div style="position:relative;text-align:center">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:6px">${u.img?'View Photos':'No Photos'}</div>
+        </div>
+      </div>
+      <div class="section-card-body">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+          <h3 style="font-size:0.9rem;font-weight:700;letter-spacing:-0.01em">${u.title}</h3>
+          <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap;margin-left:8px">${u.date}</span>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.6;margin-bottom:12px">${u.desc}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="badge badge-info" style="font-size:0.7rem">☀️ ${u.weather}</span>
+          <span class="badge badge-primary" style="font-size:0.7rem">👤 ${u.worker}</span>
+        </div>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+// ── APPROVALS ──
+const approvalData = [
+  { id: 1, stage: 'Wall Work', type: 'Stage Completion', desc: 'Contractor requests your approval that the Wall Work stage is 100% complete and meets quality standards. Please review the attached photos before approving.', status: 'pending', date: 'May 23, 2026' },
+  { id: 2, stage: 'Additional Work', type: 'Change Request', desc: 'Contractor proposes an upgrade from standard tiles to premium anti-slip tiles for the bathroom floors. Additional cost: $2,800. Timeline impact: +2 days.', status: 'pending', date: 'May 24, 2026' },
+  { id: 3, stage: 'Foundation', type: 'Stage Approval', desc: 'Foundation stage fully completed and certified by structural engineer. All quality checks passed.', status: 'approved', date: 'Feb 10, 2026' },
+  { id: 4, stage: 'Structure', type: 'Stage Approval', desc: 'Steel framework and structural beams erected as per approved plans. Civil engineer inspection completed.', status: 'approved', date: 'Mar 20, 2026' },
+];
+
+function buildApprovals() {
+  const grid = document.getElementById('approvalsGrid');
+  if (!grid || grid.children.length > 0) return;
+  approvalData.forEach(a => {
+    const div = document.createElement('div');
+    div.className = 'approval-card animate-fade-up';
+    div.innerHTML = `
+      <div class="approval-header">
+        <div class="activity-icon" style="width:42px;height:42px;background:${a.status==='approved'?'rgba(16,185,129,0.12)':'rgba(245,158,11,0.12)'};color:${a.status==='approved'?'#34d399':'#fbbf24'};border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          ${a.status==='approved'?`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`}
+        </div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-size:0.95rem;font-weight:700">${a.type}: ${a.stage}</span>
+            <span class="badge ${a.status==='approved'?'badge-success':'badge-warning'}">${a.status==='approved'?'✓ Approved':'⏳ Pending'}</span>
+          </div>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">Submitted: ${a.date}</div>
+        </div>
+      </div>
+      <div class="approval-body">${a.desc}</div>
+      ${a.status === 'pending' ? `
+      <div class="approval-actions">
+        <button class="btn btn-success" onclick="approveItem(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Approve</button>
+        <button class="btn btn-ghost" onclick="Toast.show('Rejection note sent to contractor','warning')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Reject</button>
+        <button class="btn btn-ghost btn-sm" onclick="Toast.show('Opening attachments...','info')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>View Photos</button>
+      </div>` : `<div style="font-size:0.8rem;color:var(--brand-success);font-weight:600;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>You approved this stage</div>`}
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function approveItem(btn) {
+  const card = btn.closest('.approval-card');
+  btn.closest('.approval-actions').innerHTML = `<div style="font-size:0.8rem;color:var(--brand-success);font-weight:600;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Approved just now</div>`;
+  Toast.show('Stage approved! Contractor notified.', 'success');
+}
+
+// ── PAYMENT TABLE ──
+function buildPaymentTable() {
+  const payments = [
+    { date: 'May 1, 2026', desc: 'Roofing Stage Advance', amount: '$42,000', method: 'Bank Transfer', status: 'paid' },
+    { date: 'Apr 1, 2026', desc: 'Wall Work Completion', amount: '$38,000', method: 'Cheque', status: 'paid' },
+    { date: 'Mar 5, 2026', desc: 'Structural Stage', amount: '$54,000', method: 'Bank Transfer', status: 'paid' },
+    { date: 'Feb 1, 2026', desc: 'Foundation Stage', amount: '$62,000', method: 'Bank Transfer', status: 'paid' },
+    { date: 'Jan 10, 2026', desc: 'Initial Advance', amount: '$88,000', method: 'Bank Transfer', status: 'paid' },
+    { date: 'Jun 1, 2026', desc: 'Roofing Completion', amount: '$28,000', method: 'Pending', status: 'pending' },
+  ];
+
+  const tbody = document.getElementById('paymentHistoryTable');
+  if (!tbody || tbody.children.length > 0) return;
+  payments.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${p.date}</td><td><b>${p.desc}</b></td><td style="font-weight:700">${p.amount}</td><td>${p.method}</td><td><span class="badge ${p.status==='paid'?'badge-success':'badge-warning'}">${p.status==='paid'?'✓ Paid':'⏳ Pending'}</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── CHAT ──
+function sendClientMsg() {
+  const input = document.getElementById('clientChatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg sent';
+  div.innerHTML = `<div><div class="chat-bubble">${msg}</div><div class="chat-time" style="text-align:right">Just now</div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  input.value = '';
+
+  setTimeout(() => {
+    const reply = document.createElement('div');
+    reply.className = 'chat-msg received';
+    reply.innerHTML = `<div class="avatar avatar-sm" style="background:var(--gradient-success)">RP</div><div><div class="chat-bubble">Thanks for the message! I'll get back to you shortly. 👍</div><div class="chat-time">Just now</div></div>`;
+    msgs.appendChild(reply);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1500);
+}
+
+// ── SIDEBAR MOBILE ──
+document.getElementById('sidebarMobileToggle').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('show');
+});
+
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+});
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  initBudgetChart('pie');
+  buildPaymentTable();
+});
+</script>
+</body>
+</html>

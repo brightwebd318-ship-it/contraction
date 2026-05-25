@@ -1,0 +1,12 @@
+{
+  "name": "constructflow",
+  "version": "1.0.0",
+  "description": "ConstructFlow - Modern SaaS Construction Management Platform",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["construction", "management", "saas"],
+  "author": "ConstructFlow",
+  "license": "MIT"
+}
